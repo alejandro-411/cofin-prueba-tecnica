@@ -1,1 +1,28 @@
-<p>data-table works!</p>
+<button (click)="loadCSV()">Cargar Datos</button>
+
+<table *ngIf="data.length">
+  <thead>
+    <tr>
+      <th>NIT</th>
+      <th>Nombre Completo</th>
+      <th>Ingresos</th>
+      <th>Egresos</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td>{{ row.NIT }}</td>
+      <td>{{ row['Nombre Completo'] }}</td>
+      <td [ngStyle]="{'background-color': row.Ingresos > 2500000 ? 'lightgreen' : 'white'}">
+        {{ row.Ingresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+      </td>
+      <td [ngStyle]="{'background-color': row.Egresos > 2000000 ? 'lightcoral' : 'white'}">
+        {{ row.Egresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+      </td>
+      <td [ngStyle]="{'background-color': row.Total > 0 ? 'lightblue' : 'lightyellow'}">
+        {{ row.Total | currency:'COP':'symbol-narrow':'1.0-0' }}
+      </td>
+    </tr>
+  </tbody>
+</table>
