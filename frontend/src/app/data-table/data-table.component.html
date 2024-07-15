@@ -1,28 +1,59 @@
-<button (click)="loadCSV()">Cargar Datos</button>
+<div class="container">
+  <mat-card *ngIf="data.length">
+    <mat-card-header>
+      <mat-card-title>Datos Financieros</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="data" *ngIf="data.length" class="mat-elevation-z8">
+        <!-- NIT Column -->
+        <ng-container matColumnDef="NIT">
+          <th mat-header-cell *matHeaderCellDef> NIT </th>
+          <td mat-cell *matCellDef="let element"> {{element.nit}} </td>
+        </ng-container>
 
-<table *ngIf="data.length">
-  <thead>
-    <tr>
-      <th>NIT</th>
-      <th>Nombre Completo</th>
-      <th>Ingresos</th>
-      <th>Egresos</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of data">
-      <td>{{ row.NIT }}</td>
-      <td>{{ row['Nombre Completo'] }}</td>
-      <td [ngStyle]="{'background-color': row.Ingresos > 2500000 ? 'lightgreen' : 'white'}">
-        {{ row.Ingresos | currency:'COP':'symbol-narrow':'1.0-0' }}
-      </td>
-      <td [ngStyle]="{'background-color': row.Egresos > 2000000 ? 'lightcoral' : 'white'}">
-        {{ row.Egresos | currency:'COP':'symbol-narrow':'1.0-0' }}
-      </td>
-      <td [ngStyle]="{'background-color': row.Total > 0 ? 'lightblue' : 'lightyellow'}">
-        {{ row.Total | currency:'COP':'symbol-narrow':'1.0-0' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <!-- Nombre Completo Column -->
+        <ng-container matColumnDef="NombreCompleto">
+          <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
+          <td mat-cell *matCellDef="let element"> {{element['nombre completo']}} </td>
+        </ng-container>
+
+        <!-- Ingresos Column -->
+        <ng-container matColumnDef="Ingresos">
+          <th mat-header-cell *matHeaderCellDef> Ingresos </th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{'highlight-green': element.ingresos > 2500000}">
+            {{element.ingresos | currency:'COP':'symbol-narrow':'1.0-0'}}
+          </td>
+        </ng-container>
+
+        <!-- Egresos Column -->
+        <ng-container matColumnDef="Egresos">
+          <th mat-header-cell *matHeaderCellDef> Egresos </th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{'highlight-red': element.egresos > 2000000}">
+            {{element.egresos | currency:'COP':'symbol-narrow':'1.0-0'}}
+          </td>
+        </ng-container>
+
+        <!-- Total Column -->
+        <ng-container matColumnDef="Total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{'highlight-blue': element.total > 0, 'highlight-yellow': element.Total <= 0}">
+            {{element.total | currency:'COP':'symbol-narrow':'1.0-0'}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['NIT', 'NombreCompleto', 'Ingresos', 'Egresos', 'Total']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['NIT', 'NombreCompleto', 'Ingresos', 'Egresos', 'Total'];"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  
+
+  <div *ngIf="!data.length">
+    <p>No hay datos para mostrar. Por favor, carga los datos.</p>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="processData()">Cargar Datos</button>
+  </div>
+</div>
