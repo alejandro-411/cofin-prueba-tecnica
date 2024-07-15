@@ -38,7 +38,7 @@ def process_data():
     }
 
     # Save data
-    df_stats = pd.DataFrame(list(stats.items()), columns=['descripción', 'valor'])
+    df_stats = pd.DataFrame(list(stats.items()), columns=['descripcion', 'valor'])
     df_merged.to_csv(os.path.join(backend_dir, 'results', 'data_merged.csv'), index=False)
     df_stats.to_csv(os.path.join(backend_dir, 'results', 'data_stats.csv'), index=False)
 
@@ -49,5 +49,5 @@ def get_data():
     return pd.read_csv('backend/results/data_merged.csv').to_dict('records')
 
 def get_stats():
-    return pd.read_csv('backend/results/data_stats.csv').set_index('descripción')['valor'].to_dict()
+    return pd.read_csv('backend/results/data_stats.csv').set_index('descripcion')['valor'].to_dict()
 

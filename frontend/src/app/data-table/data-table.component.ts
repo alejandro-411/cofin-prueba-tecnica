@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataTableComponent implements OnInit {
   data: any[] = [];
-  statistics: any = {};
+  stats: any = {};
 
   constructor(private http: HttpClient) { }
 
@@ -52,8 +52,11 @@ export class DataTableComponent implements OnInit {
    * Loads the statistics data from the server.
    */
   loadStatistics(): void {
-    this.http.get<any>('http://localhost:5000/statistics').subscribe(
-      stats => this.statistics = stats,
+    this.http.get('http://localhost:5000/stats').subscribe(
+      stats => {
+        this.stats = Object.keys(stats).map((key: string) => ({ descripcion: key, valor: (stats as any)[key] }));
+        console.log('Statistics loaded', this.stats);
+      },
       error => console.error('Error loading statistics:', error)
     );
   }
