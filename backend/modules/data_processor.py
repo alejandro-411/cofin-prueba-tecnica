@@ -9,7 +9,7 @@ df_merged = pd.merge(df_personal, df_financial, on='nit')
 
 df_merged['nombre completo'] = df_merged['nombre'] + ' ' + df_merged['apellido']
 df_merged['total'] = df_merged['ingresos'] - df_merged['egresos']
-
+df_merged = df_merged[['nit', 'nombre completo', 'ingresos', 'egresos', 'total']]
 
 stats = {
     'suma de Ingresos': df_merged['ingresos'].sum(),
@@ -25,5 +25,8 @@ stats = {
 # Save data
 
 df_stats = pd.DataFrame(list(stats.items()), columns=['descripción', 'valor'])
-df_merged.to_csv('backend/data/data_merged.csv', index=False)
-df_stats.to_csv('backend/data/data_stats.csv', index=False)
+df_merged.to_csv('backend/results/data_merged.csv', index=False)
+df_stats.to_csv('backend/results/data_stats.csv', index=False)
+
+print("\nEstadísticas:")
+print(df_stats)
